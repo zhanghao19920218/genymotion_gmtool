@@ -4,7 +4,7 @@ pyproject.toml
 src/geny_gmtool/__init__.py
 src/geny_gmtool/g_error.py
 src/geny_gmtool/genygmtool.py
-src/geny_gmtool/model.py
+src/geny_gmtool/genymotion_model.py
 src/geny_gmtool/thread_timer.py
 src/geny_gmtool.egg-info/PKG-INFO
 src/geny_gmtool.egg-info/SOURCES.txt

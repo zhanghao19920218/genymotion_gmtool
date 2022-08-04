@@ -3,10 +3,10 @@ import time
 from multiprocessing import Event
 from subprocess import run, CompletedProcess, PIPE
 from typing import List
-from genymotion_model import GenymotionDeviceModel
+from geny_gmtool.genymotion_model import GenymotionDeviceModel
 from enum import Enum
-from g_error import GmtoolError, GmtoolErrorType
-from thread_timer import ThreadTimer
+from geny_gmtool.g_error import GmtoolError, GmtoolErrorType
+from geny_gmtool.thread_timer import ThreadTimer
 
 
 class GenyStatus(Enum):
