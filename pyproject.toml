@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "geny_gmtool"
+version = "0.0.1"
+authors = [
+  { name="Barry Allen", email="2420615378@qq.com" },
+]
+description = "Gmtool use python to get"
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/zhanghao19920218/genymotion_gmtool"
+"Bug Tracker" = "https://github.com/zhanghao19920218/genymotion_gmtool/issues"
