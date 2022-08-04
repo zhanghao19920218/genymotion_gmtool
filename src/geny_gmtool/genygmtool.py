@@ -3,7 +3,7 @@ import time
 from multiprocessing import Event
 from subprocess import run, CompletedProcess, PIPE
 from typing import List
-from model import GenymotionDeviceModel
+from genymotion_model import GenymotionDeviceModel
 from enum import Enum
 from g_error import GmtoolError, GmtoolErrorType
 from thread_timer import ThreadTimer
