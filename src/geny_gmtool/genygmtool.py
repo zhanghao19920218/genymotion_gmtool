@@ -1,4 +1,5 @@
 # coding=utf-8
+import os
 import time
 from multiprocessing import Event
 from subprocess import run, CompletedProcess, PIPE
@@ -7,6 +8,19 @@ from geny_gmtool.genymotion_model import GenymotionDeviceModel
 from enum import Enum
 from geny_gmtool.g_error import GmtoolError, GmtoolErrorType
 from geny_gmtool.thread_timer import ThreadTimer
+import platform
+
+
+def is_windows() -> bool:
+    """
+    Check the system is windows or not
+    Returns:
+
+    """
+    if platform.system().lower() == 'windows':
+        return True
+    else:
+        return False
 
 
 class GenyStatus(Enum):
@@ -46,7 +60,7 @@ def get_list_devices_running(status: GenyStatus = GenyStatus.ALL) -> List[Genymo
 
 def start_device_name(device_name: str) -> int:
     """
-    open a device, 
+    open a device,
     Args:
         device_name (str): the device name you have given
     Returns:
@@ -59,21 +73,26 @@ def start_device_name(device_name: str) -> int:
     device_names: List[str] = list(map(lambda item: item.device_name, devices))
     if device_name not in device_names:
         raise GmtoolError(error_type=GmtoolErrorType.NotFoundDevice)
-    online_devices: List[GenymotionDeviceModel] = list(
-        filter(lambda item: item.status, devices))
+    online_devices: List[GenymotionDeviceModel] = list(filter(lambda item: item.status, devices))
     online_dev_names: List[str] = list(
         map(lambda item: item.device_name, online_devices))
     if device_name in online_dev_names:
         return ret
     else:
         command_list: List[str] = ['gmtool', 'admin', 'start', device_name]
-        result: CompletedProcess[bytes] = run(command_list,
-                                              stdout=PIPE)
-        str_result: str = result.stdout.decode(encoding='utf-8')
-        if "not found" in str_result:
-            raise GmtoolError(error_type=GmtoolErrorType.NotFoundDevice)
-        elif "already started" in str_result:
-            return -1
+        if is_windows():
+            os.system(f'gmtool admin start "{device_name}"')
+            time.sleep(10)
+        else:
+            result: CompletedProcess[bytes] = run(command_list,
+                                                  shell=False,
+                                                  stdout=PIPE,
+                                                  timeout=None)
+            str_result: str = result.stdout.decode(encoding='utf-8')
+            if "not found" in str_result:
+                raise GmtoolError(error_type=GmtoolErrorType.NotFoundDevice)
+            elif "already started" in str_result:
+                return -1
         # check the status in ten seconds
         ret = loop_check_device_status(device_name=device_name)
     return ret
@@ -161,5 +180,3 @@ def loop_check_device_status(device_name: str,
         else:
             continue
     return -1
-
-
